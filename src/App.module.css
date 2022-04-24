@@ -12,6 +12,9 @@
     height: 310px;
 }
 
+
+/*=======Output==============*/
+
 .output {
     display: flex;
     justify-content: center;
@@ -41,6 +44,8 @@
     color: #33333d;
 }
 
+
+/*=======Button==============*/
 .button_block {
     display: flex;
     justify-content: center;
