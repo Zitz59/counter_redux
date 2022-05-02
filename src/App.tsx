@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
-import {Counter} from './Counter';
+import s from './App.module.css'
+import {Counter} from './Components/Counter/Counter';
+import {Settings} from './Components/Settings/Settings';
 
 function App() {
 
@@ -9,7 +11,9 @@ function App() {
 
 
     return (
-        <div className="App">
+        <div className={s.app_wrapper}>
+            <Settings />
+
             <Counter startValue={startValue}
                      setStartValue={setStartValue}
                      maxValue={maxValue}
@@ -18,6 +22,7 @@ function App() {
                      setCounterValue={setCounterValue}
 
             />
+
         </div>
     );
 }
