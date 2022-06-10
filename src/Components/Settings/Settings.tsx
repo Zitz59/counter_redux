@@ -1,11 +1,9 @@
 import React, {
     ChangeEvent,
-    ChangeEventHandler,
-    FormEventHandler,
-    MouseEventHandler,
     SetStateAction,
 } from 'react';
 import s from './Settings.module.css'
+import {Button} from "../Button";
 
 export type SettingsType = {
     startValue: number
@@ -22,17 +20,17 @@ export type SettingsType = {
 
 export function Settings(props: SettingsType) {
 
-    const SetButtonHandler = (e: MouseEventHandler<HTMLInputElement>) => {
-        props.setStartValue( + 1)
+    const SetButtonHandler = () => {
+        props.setStartValue(props.startValue)
     }
 
 
     const onChangeMinValue = (e: ChangeEvent<HTMLInputElement>) => {
-        props.setStartValue(e.currentTarget.)
+        props.setStartValue
     }
 
     const onChangeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
-        props.setMaxValue(e.currentTarget.value)
+        props.setMaxValue
     }
 
     return (
@@ -48,9 +46,10 @@ export function Settings(props: SettingsType) {
                 </div>
             </div>
             <div className={s.button_block}>
-                <button className={s.setButton}
-                        onClick={SetButtonHandler}>set
-                </button>
+                {/*<button className={s.setButton}*/}
+                {/*        onClick={SetButtonHandler}>set*/}
+                {/*</button>*/}
+                <Button buttonName={'set'} callBack={SetButtonHandler}/>
             </div>
         </div>)
 
