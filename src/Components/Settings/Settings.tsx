@@ -2,22 +2,23 @@ import React, {
     ChangeEvent,
 } from 'react';
 import s from './Settings.module.css'
-import {Button} from "../Button";
+import {Button} from '../Button';
+import {Input} from '../Input';
 
 export type SettingsType = {
-     startValue:number
-    setStartValue: (newStartValue:number) => void
-     maxValue: number
-    setMaxValue: (newMaxValue:number) => void
-     setCounterValue: (number: number) => void
-     setMaxCounterValue:(number:number)=>void
+    startValue: number
+    setStartValue: (newStartValue: number) => void
+    maxValue: number
+    setMaxValue: (newMaxValue: number) => void
+    setCounterValue: (number: number) => void
+    setMaxCounterValue: (number: number) => void
     // setMaxValue: (value: SetStateAction<number>) => void
     // setStartValue: (value: SetStateAction<number>) => void
 }
 
 export function Settings(props: SettingsType) {
     //сетаем кнопкой и значения отправляются в  localStorage
-    const SetButtonHandler = () => {
+    const setButtonHandler = () => {
         props.setCounterValue(props.startValue)
         props.setMaxCounterValue(props.maxValue)
     }
@@ -33,18 +34,21 @@ export function Settings(props: SettingsType) {
     }
     //styles for SET button here HUINYA - PEREDELAT
 
-    const setButtonClass = `${props.setStartValue === props.setMaxValue ? s.button_disabled : ''}`
+    const setButtonClass = props.startValue >= props.maxValue ? s.button_disabled : ''
+    const inputValueError = props.startValue < 0 || props.startValue === props.maxValue ? s.input_alert : s.input_style
+
 
     return (
         <div className={s.settings_body}>
             <div className={s.input_block_wrapper}>
                 <div className={s.input_block}>
                     <label className={s.input_title}>max value :</label>
-                    <input className={s.input_style} onChange={onChangeMaxValue} type="number"/>
+                    <input value={props.maxValue} className={inputValueError} onChange={onChangeMaxValue} type="number"/>
                 </div>
                 <div className={s.input_block}>
                     <label className={s.input_title}>min value :</label>
-                    <input onChange={onChangeMinValue} className={s.input_style} type="number"/>
+                    <input value={props.startValue} onChange={onChangeMinValue} className={inputValueError}
+                           type="number"/>
                 </div>
             </div>
             <div className={s.button_block}>
@@ -52,7 +56,8 @@ export function Settings(props: SettingsType) {
                 {/*        onClick={SetButtonHandler}>set*/}
                 {/*</button>*/}
 
-                <Button className={setButtonClass} buttonName={'set'} callBack={SetButtonHandler} disabled ={props.startValue<=0}/>
+                <Button className={setButtonClass} buttonName={'set'} callBack={setButtonHandler}
+                        disabled={s.button_block}/>
             </div>
         </div>)
 
