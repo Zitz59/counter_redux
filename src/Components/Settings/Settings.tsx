@@ -1,37 +1,39 @@
 import React, {
     ChangeEvent,
-    SetStateAction,
 } from 'react';
 import s from './Settings.module.css'
 import {Button} from "../Button";
 
 export type SettingsType = {
-    startValue: number
-    setStartValue: (value: SetStateAction<number>) => void
-    maxValue: number
-    setMaxValue: (value: SetStateAction<number>) => void
+     startValue:number
+    setStartValue: (newStartValue:number) => void
+     maxValue: number
+    setMaxValue: (newMaxValue:number) => void
+     setCounterValue: (number: number) => void
+     setMaxCounterValue:(number:number)=>void
+    // setMaxValue: (value: SetStateAction<number>) => void
+    // setStartValue: (value: SetStateAction<number>) => void
 }
 
-
-// export type ValuePropsType = {
-//     value:number
-//     setValue:(value:number)=>void
-// }
-
 export function Settings(props: SettingsType) {
-
+    //сетаем кнопкой и значения отправляются в  localStorage
     const SetButtonHandler = () => {
-        props.setStartValue(props.startValue)
+        props.setCounterValue(props.startValue)
+        props.setMaxCounterValue(props.maxValue)
     }
-
-
+//  хапаем значения из MinValue и parse to integer => суём в UseState
     const onChangeMinValue = (e: ChangeEvent<HTMLInputElement>) => {
-        props.setStartValue
+        let newStartValue = e.currentTarget.value
+        props.setStartValue(parseInt(newStartValue))
     }
-
+//  хапаем значения из  maxValue и parse to integer => суём в UseState
     const onChangeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
-        props.setMaxValue
+        let newMaxValue = e.currentTarget.value
+        props.setMaxValue(parseInt(newMaxValue))
     }
+    //styles for SET button here HUINYA - PEREDELAT
+
+    const setButtonClass = `${props.setStartValue === props.setMaxValue ? s.button_disabled : ''}`
 
     return (
         <div className={s.settings_body}>
@@ -49,7 +51,8 @@ export function Settings(props: SettingsType) {
                 {/*<button className={s.setButton}*/}
                 {/*        onClick={SetButtonHandler}>set*/}
                 {/*</button>*/}
-                <Button buttonName={'set'} callBack={SetButtonHandler}/>
+
+                <Button className={setButtonClass} buttonName={'set'} callBack={SetButtonHandler} disabled ={props.startValue<=0}/>
             </div>
         </div>)
 
