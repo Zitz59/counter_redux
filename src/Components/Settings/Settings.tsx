@@ -2,8 +2,8 @@ import React, {
     ChangeEvent,
 } from 'react';
 import s from './Settings.module.css'
-import {Button} from '../Button';
-import {Input} from '../Input';
+import {Button} from '../Button/Button';
+
 
 export type SettingsType = {
     startValue: number
@@ -12,8 +12,6 @@ export type SettingsType = {
     setMaxValue: (newMaxValue: number) => void
     setCounterValue: (number: number) => void
     setMaxCounterValue: (number: number) => void
-    // setMaxValue: (value: SetStateAction<number>) => void
-    // setStartValue: (value: SetStateAction<number>) => void
 }
 
 export function Settings(props: SettingsType) {
@@ -34,8 +32,9 @@ export function Settings(props: SettingsType) {
     }
     //styles for SET button here HUINYA - PEREDELAT
 
-    const setButtonClass = props.startValue >= props.maxValue ? s.button_disabled : ''
-    const inputValueError = props.startValue < 0 || props.startValue === props.maxValue ? s.input_alert : s.input_style
+    const error = props.startValue || props.maxValue < 0 || props.startValue === props.maxValue
+    const setButtonClass = error ? s.button_disabled : s.button_enabled
+    const inputValueError = error ? s.input_alert : s.input_style
 
 
     return (
@@ -43,7 +42,8 @@ export function Settings(props: SettingsType) {
             <div className={s.input_block_wrapper}>
                 <div className={s.input_block}>
                     <label className={s.input_title}>max value :</label>
-                    <input value={props.maxValue} className={inputValueError} onChange={onChangeMaxValue} type="number"/>
+                    <input value={props.maxValue} className={inputValueError} onChange={onChangeMaxValue}
+                           type="number"/>
                 </div>
                 <div className={s.input_block}>
                     <label className={s.input_title}>min value :</label>
@@ -52,12 +52,8 @@ export function Settings(props: SettingsType) {
                 </div>
             </div>
             <div className={s.button_block}>
-                {/*<button className={s.setButton}*/}
-                {/*        onClick={SetButtonHandler}>set*/}
-                {/*</button>*/}
-
                 <Button className={setButtonClass} buttonName={'set'} callBack={setButtonHandler}
-                        disabled={s.button_block}/>
+                        disabled={props.startValue < 0}/>
             </div>
         </div>)
 
