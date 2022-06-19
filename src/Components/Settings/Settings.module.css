@@ -1,5 +1,5 @@
 
-.settings_body{
+.settings_body {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -30,11 +30,11 @@
     width: 90%;
 }
 
-.input_block>label{
+.input_block > label {
     flex: 2;
 }
 
-.input_block>input{
+.input_block > input {
     flex: 1;
 }
 
@@ -47,7 +47,7 @@
     text-align: center;
 }
 
-.input_alert{
+.input_alert {
     display: flex;
     border-radius: 5px;
     border-color: #ff0000;
@@ -73,17 +73,18 @@
     border: solid 4px cyan;
     align-content: center;
     margin-top: 20px;
+}
 
-}
-.button_disabled {
-    opacity: 0.1;
-}
 
 .button_enabled {
     opacity: 1;
 }
 
-.error{
+.button_disabled {
+    opacity: 0.1;
+}
+
+.error {
     opacity: 0.1;
 }
 
