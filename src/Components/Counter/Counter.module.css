@@ -1,7 +1,7 @@
 
 .counter_body {
 
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     justify-content: center;
     padding: 20px;
@@ -74,9 +74,22 @@ button {
     opacity: 1;
 }
 
-s.inputStyle{
+.inputStyle{
     display: initial;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
+
+.spanError{
+    display: initial;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    font-size: 30px;
+    text-align: center;
+    color: #ffffff;
+    line-height: 0px;
+}
+
+
