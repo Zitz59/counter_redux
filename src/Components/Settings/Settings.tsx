@@ -4,7 +4,6 @@ import React, {
 import s from './Settings.module.css'
 import {Button} from '../Button/Button';
 
-
 export type SettingsType = {
     startValue: number
     setStartValue: (newStartValue: number) => void
@@ -12,6 +11,7 @@ export type SettingsType = {
     setMaxValue: (newMaxValue: number) => void
     setCounterValue: (number: number) => void
     setMaxCounterValue: (number: number) => void
+    setMessage: (value: string) => void
 }
 
 export function Settings(props: SettingsType) {
@@ -19,23 +19,29 @@ export function Settings(props: SettingsType) {
     const setButtonHandler = () => {
         props.setCounterValue(props.startValue)
         props.setMaxCounterValue(props.maxValue)
+        localStorage.setItem('startValue', JSON.stringify(props.startValue))
+        localStorage.setItem('maxValue', JSON.stringify(props.maxValue))
+        props.setMessage('')
     }
 //  хапаем значения из MinValue и parse to integer => суём в UseState
     const onChangeMinValue = (e: ChangeEvent<HTMLInputElement>) => {
         let newStartValue = e.currentTarget.value
         props.setStartValue(parseInt(newStartValue))
+        props.setMessage('Enter the value and press Set')
     }
 //  хапаем значения из  maxValue и parse to integer => суём в UseState
     const onChangeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
         let newMaxValue = e.currentTarget.value
         props.setMaxValue(parseInt(newMaxValue))
+        props.setMessage('Enter the value and press Set')
     }
-    //styles for SET button here HUINYA - PEREDELAT
 
-    const error = props.startValue || props.maxValue < 0 || props.startValue === props.maxValue
-    const setButtonClass = error ? s.button_disabled : s.button_enabled
-    const inputValueError = error ? s.input_alert : s.input_style
+    let settingsError = props.startValue >= props.maxValue
+        || props.startValue < 0
+        || props.maxValue <= 0
 
+    const setButtonClass = settingsError ? s.button_disabled : s.button_enabled
+    const inputValueError = settingsError ? s.input_alert : s.input_style
 
     return (
         <div className={s.settings_body}>
@@ -53,7 +59,7 @@ export function Settings(props: SettingsType) {
             </div>
             <div className={s.button_block}>
                 <Button className={setButtonClass} buttonName={'set'} callBack={setButtonHandler}
-                        disabled={props.startValue < 0}/>
+                        disabled={settingsError}/>
             </div>
         </div>)
 
