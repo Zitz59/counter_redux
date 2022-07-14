@@ -10,17 +10,17 @@ export type SettingsType = {
     maxValue: number
     setMaxValue: (newMaxValue: number) => void
     setCounterValue: (number: number) => void
-    setMaxCounterValue: (number: number) => void
     setMessage: (value: string) => void
+
 }
 
 export function Settings(props: SettingsType) {
     //сетаем кнопкой и значения отправляются в  localStorage
     const setButtonHandler = () => {
         props.setCounterValue(props.startValue)
-        props.setMaxCounterValue(props.maxValue)
         localStorage.setItem('startValue', JSON.stringify(props.startValue))
         localStorage.setItem('maxValue', JSON.stringify(props.maxValue))
+        localStorage.setItem('counterValue', JSON.stringify(props.startValue))
         props.setMessage('')
     }
 //  хапаем значения из MinValue и parse to integer => суём в UseState
