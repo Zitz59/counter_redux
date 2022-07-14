@@ -8,22 +8,18 @@ export type CounterType = {
     setMaxValue: (number: number) => void
     counterValue: number
     setCounterValue: (number: number) => void
-    maxCounterValue: number
-    setMaxCounterValue: (number: number) => void
     message: string
+    setMessage: (value: string) => void
 }
 
 export function Counter(props: CounterType) {
-    console.log(props.counterValue)
-
-    //создать переменную   error в которую нужно положить логику с ошибками (
+    console.log(props.startValue)
     // props.counter=>number в error можно положить string с надписью ошибки и логикой её работы
-
-    let counterError = props.counterValue < 0
-        || props.startValue < 0
-        || props.maxValue <= 0
-        || props.startValue >= props.maxValue
-        || props.counterValue > props.maxValue
+    let counterError = props.counterValue < 0 ? props.setMessage('Please enter correct value!'): null //null
+        || props.startValue < 0 ? props.setMessage('Please enter correct value!'): null
+        || props.maxValue <= 0 ? props.setMessage('Please enter correct value!'): null
+        || props.startValue >= props.maxValue ? props.setMessage('Please enter correct value!'): null
+        || props.counterValue > props.maxValue ? props.setMessage('Please enter correct value!'): null
 
     const incButtonHandler = () => {
         if (props.counterValue === props.maxValue || props.counterValue < props.maxValue) {
@@ -35,21 +31,25 @@ export function Counter(props: CounterType) {
         //     props.setCounterValue(props.counterValue + 1) : s.button_disabled//counter increments value
     }
     const resetButtonHandler = () => {
-        props.setCounterValue(props.startValue)//reset counter to startValue
-        props.setMaxCounterValue(props.maxValue)
+        props.setCounterValue(props.maxValue)//reset counter to startValue
+        props.setCounterValue(props.startValue)
     }
 
-    const fullOrEmptyOutputClass = `${props.counterValue === props.maxValue ? s.output_title_full : s.output_title_empty} `// color for counter
+    // const disableResetButton = props.counterValue === 0 || counterError
+
+    const fullOrEmptyOutputClass = `${props.counterValue === props.maxValue ? s.output_title_full : s.output_title_empty} `
     const incButtonClass = `${props.counterValue === props.maxValue || counterError || props.message ? s.button_disabled : ''}`// добавить условие для enterValue
-    const resetButtonClass = `${props.startValue === props.counterValue || props.counterValue === 0 ? s.button_disabled : ''}`//Check for opacity reset button
+    const resetButtonClass = `${props.startValue === props.counterValue || props.counterValue === 0 || props.startValue < 0 ? s.button_disabled : ''}`
 
     const errorText = 'Please enter correct value!'
     const enterValueText = 'Enter the value and press Set'
     const counterOutput = <div>{props.counterValue}</div>
     const errorOutput = <div className={s.spanError}>{errorText}</div>
     const enterTextOutput = <div className={s.enterValue}>{enterValueText}</div>
-    const finalOutput = props.message === enterValueText ? enterTextOutput : counterOutput
-    console.log(props.message)
+    const finalOutput = props.message === enterValueText ? enterTextOutput
+        : props.message === errorText ? errorOutput
+            : counterOutput
+
     //!props.error ? props.counterValue : props.error то что было в span
 
     return (
@@ -62,7 +62,7 @@ export function Counter(props: CounterType) {
                 <button disabled={props.counterValue === props.maxValue || !!props.message} className={incButtonClass}
                         onClick={incButtonHandler}>incr
                 </button>
-                <button disabled={props.counterValue === 0 || counterError} className={resetButtonClass}
+                <button disabled={!!counterError || props.startValue < 0} className={resetButtonClass}
                         onClick={resetButtonHandler}>reset
                 </button>
             </div>
