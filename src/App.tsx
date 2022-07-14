@@ -8,8 +8,10 @@ function App() {
     const [startValue, setStartValue] = useState<number>(0)//start value for counter
     const [maxValue, setMaxValue] = useState<number>(1)//max value for counter
     const [counterValue, setCounterValue] = useState<number>(0)//counter state
-    const [maxCounterValue, setMaxCounterValue] = useState<number>(0)//maxCounter value for resetBtn
     const [message, setMessage] = useState<string>('')
+    const [error, setError] = useState<boolean>(false)
+
+    let counterError = {}
 
     //const error = startValue || maxValue < 0 || startValue === maxValue
     //console.log(error)
@@ -17,11 +19,12 @@ function App() {
 //создать callback который передаёт startValue в counterValue
 
     useEffect(() => {
-
         let startValueAsString = localStorage.getItem('startValue')
         let maxValueAsString = localStorage.getItem('maxValue')
+        let counterValueAsString = localStorage.getItem('counterValue')
         startValueAsString && setStartValue(JSON.parse(startValueAsString))
         maxValueAsString && setMaxValue(JSON.parse(maxValueAsString))
+        counterValueAsString && setCounterValue(JSON.parse(counterValueAsString))
     }, [])
 
     //синхронизация должна запускаться каждый раз когда мы жмём кнопку SET
@@ -36,7 +39,6 @@ function App() {
                 maxValue={maxValue}
                 setMaxValue={setMaxValue}
                 setCounterValue={setCounterValue}
-                setMaxCounterValue={setMaxCounterValue}
             />
 
             <Counter startValue={startValue}
@@ -45,8 +47,7 @@ function App() {
                      setMaxValue={setMaxValue}
                      counterValue={counterValue}
                      setCounterValue={setCounterValue}
-                     maxCounterValue={maxCounterValue}
-                     setMaxCounterValue={setMaxCounterValue}
+                     setMessage={setMessage}
                      message={message}
             />
         </div>
