@@ -9,9 +9,14 @@ function App() {
     const [maxValue, setMaxValue] = useState<number>(1)//max value for counter
     const [counterValue, setCounterValue] = useState<number>(0)//counter state
     const [message, setMessage] = useState<string>('')
-    const [error, setError] = useState<boolean>(false)
 
-    let counterError = {}
+    // let counterError = counterValue < 0 ? setError(!error): null
+    //     || startValue < 0 ?  setError(!error) : null
+    //     || maxValue <= 0 ? setError(!error) : null
+    //     || startValue >= maxValue ? setError(!error)  : null
+    //     || counterValue > maxValue ? setError(!error)  : null
+    // localStorage.setItem('counterError',JSON.stringify(counterError))
+
 
     //const error = startValue || maxValue < 0 || startValue === maxValue
     //console.log(error)
@@ -21,11 +26,19 @@ function App() {
     useEffect(() => {
         let startValueAsString = localStorage.getItem('startValue')
         let maxValueAsString = localStorage.getItem('maxValue')
-        let counterValueAsString = localStorage.getItem('counterValue')
+        // let counterValueAsString = localStorage.getItem('counterValue')
+        // let counterErrorAsString = localStorage.getItem('counterError')
         startValueAsString && setStartValue(JSON.parse(startValueAsString))
         maxValueAsString && setMaxValue(JSON.parse(maxValueAsString))
-        counterValueAsString && setCounterValue(JSON.parse(counterValueAsString))
+        // counterValueAsString && setCounterValue(JSON.parse(counterValueAsString))
+        // counterErrorAsString && setError(JSON.parse(counterErrorAsString))
     }, [])
+
+
+    useEffect(()=>{
+        let counterValueAsString = localStorage.getItem('counterValue')
+        counterValueAsString && setCounterValue(JSON.parse(counterValueAsString))
+    },[])
 
     //синхронизация должна запускаться каждый раз когда мы жмём кнопку SET
     //либо когда меняем min\max values в SETTINGS => попадает в  localState
@@ -49,6 +62,7 @@ function App() {
                      setCounterValue={setCounterValue}
                      setMessage={setMessage}
                      message={message}
+
             />
         </div>
     );
