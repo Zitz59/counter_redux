@@ -23,17 +23,28 @@ export function Settings(props: SettingsType) {
         localStorage.setItem('counterValue', JSON.stringify(props.startValue))
         props.setMessage('')
     }
+
 //  хапаем значения из MinValue и parse to integer => суём в UseState
     const onChangeMinValue = (e: ChangeEvent<HTMLInputElement>) => {
         let newStartValue = e.currentTarget.value
         props.setStartValue(parseInt(newStartValue))
-        props.setMessage('Enter the value and press Set')
+        if ((parseInt(newStartValue)) < 0) {
+            return props.setMessage('Please enter correct value!')
+        }
+        if ((parseInt(newStartValue)) >= props.maxValue) {
+            return props.setMessage('Please enter correct value!')
+        } else props.setMessage('Enter the value and press Set')
     }
 //  хапаем значения из  maxValue и parse to integer => суём в UseState
     const onChangeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
         let newMaxValue = e.currentTarget.value
         props.setMaxValue(parseInt(newMaxValue))
-        props.setMessage('Enter the value and press Set')
+        if ((parseInt(newMaxValue)) <= 0) {
+            return props.setMessage('Please enter correct value!')
+        }
+        if (props.startValue >= (parseInt(newMaxValue))) {
+            return props.setMessage('Please enter correct value!')
+        } else props.setMessage('Enter the value and press Set')
     }
 
     let settingsError = props.startValue >= props.maxValue
