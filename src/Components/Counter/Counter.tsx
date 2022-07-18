@@ -14,58 +14,51 @@ export type CounterType = {
 }
 
 export function Counter(props: CounterType) {
+    const {setCounterValue, startValue, counterValue, message, maxValue} = props
 
-    let counterError = props.counterValue < 0
-        || props.startValue < 0
-        || props.maxValue <= 0
-        || props.startValue >= props.maxValue
-        || props.counterValue > props.maxValue
+    let counterError = counterValue < 0
+        || startValue < 0
+        || maxValue <= 0
+        || startValue >= maxValue
+        || counterValue > maxValue
 
     const incButtonHandler = () => {
-        if (props.counterValue === props.maxValue || props.counterValue < props.maxValue) {
-            return props.setCounterValue(props.counterValue + 1)
+        if (counterValue === maxValue || counterValue < maxValue) {
+            return setCounterValue(counterValue + 1)
         } else {
             return s.button_disabled
         }
     }
     const resetButtonHandler = () => {
-        props.setCounterValue(props.maxValue)//reset counter to startValue
-        props.setCounterValue(props.startValue)
+        setCounterValue(maxValue)//reset counter to startValue
+        setCounterValue(startValue)
     }
 
-    const fullOrEmptyOutputClass = `${props.counterValue === props.maxValue ? s.output_title_full : s.output_title_empty} `
-    const incButtonClass = `${props.counterValue === props.maxValue || props.message ? s.button_disabled : ''}`// добавить условие для enterValue
-    const resetButtonClass = `${props.message ? s.button_disabled : ''}`
+    const fullOrEmptyOutputClass = `${counterValue === maxValue ? s.output_title_full : s.output_title_empty} `
+    const incButtonClass = `${counterValue === maxValue || message ? s.button_disabled : ''}`// добавить условие для enterValue
+    const resetButtonClass = `${message ? s.button_disabled : ''}`
 
     const errorText = 'Please enter correct value!'
     const enterValueText = 'Enter the value and press Set'
     const counterOutput = <div>{props.counterValue}</div>
     const errorOutput = <div className={s.spanError}>{errorText}</div>
     const enterTextOutput = <div className={s.enterValue}>{enterValueText}</div>
-    const finalOutput = props.message === enterValueText ? enterTextOutput
-        : props.message === errorText ? errorOutput
+    const finalOutput = message === enterValueText ? enterTextOutput
+        : message === errorText ? errorOutput
             : counterOutput
-
 
     return (
         <div className={s.counter_body}>
             <div className={s.counter_output}>
-                {/*<span className={fullOrEmptyOutputClass}>{finalOutput}</span>*/}
                 <span className={fullOrEmptyOutputClass}>{finalOutput}</span>
             </div>
             <div className={s.button_block}>
-                <button disabled={props.counterValue === props.maxValue || !!props.message} className={incButtonClass}
+                <button disabled={counterValue === maxValue || !!message} className={incButtonClass}
                         onClick={incButtonHandler}>incr
                 </button>
-                <button disabled={counterError || props.startValue < 0 || !!props.message} className={resetButtonClass}
+                <button disabled={counterError || startValue < 0 || !!message} className={resetButtonClass}
                         onClick={resetButtonHandler}>reset
                 </button>
             </div>
         </div>)
 }
-
-
-
-
-
-
