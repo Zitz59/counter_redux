@@ -1,6 +1,4 @@
-import React, {
-    ChangeEvent,
-} from 'react';
+import {ChangeEvent} from 'react';
 import s from './Settings.module.css'
 import {Button} from '../Button/Button';
 
@@ -15,41 +13,42 @@ export type SettingsType = {
 }
 
 export function Settings(props: SettingsType) {
+    const {maxValue, startValue, setMessage, setMaxValue, setCounterValue, setStartValue} = props
     //сетаем кнопкой и значения отправляются в  localStorage
     const setButtonHandler = () => {
-        props.setCounterValue(props.startValue)
-        localStorage.setItem('startValue', JSON.stringify(props.startValue))
-        localStorage.setItem('maxValue', JSON.stringify(props.maxValue))
-        localStorage.setItem('counterValue', JSON.stringify(props.startValue))
-        props.setMessage('')
+        setCounterValue(startValue)
+        localStorage.setItem('startValue', JSON.stringify(startValue))
+        localStorage.setItem('maxValue', JSON.stringify(maxValue))
+        localStorage.setItem('counterValue', JSON.stringify(startValue))
+        setMessage('')
     }
 
 //  хапаем значения из MinValue и parse to integer => суём в UseState
     const onChangeMinValue = (e: ChangeEvent<HTMLInputElement>) => {
         let newStartValue = e.currentTarget.value
-        props.setStartValue(parseInt(newStartValue))
+        setStartValue(parseInt(newStartValue))
         if ((parseInt(newStartValue)) < 0) {
-            return props.setMessage('Please enter correct value!')
+            return setMessage('Please enter correct value!')
         }
-        if ((parseInt(newStartValue)) >= props.maxValue) {
-            return props.setMessage('Please enter correct value!')
-        } else props.setMessage('Enter the value and press Set')
+        if ((parseInt(newStartValue)) >= maxValue) {
+            return setMessage('Please enter correct value!')
+        } else setMessage('Enter the value and press Set')
     }
 //  хапаем значения из  maxValue и parse to integer => суём в UseState
     const onChangeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
         let newMaxValue = e.currentTarget.value
-        props.setMaxValue(parseInt(newMaxValue))
+        setMaxValue(parseInt(newMaxValue))
         if ((parseInt(newMaxValue)) <= 0) {
-            return props.setMessage('Please enter correct value!')
+            return setMessage('Please enter correct value!')
         }
-        if (props.startValue >= (parseInt(newMaxValue))) {
-            return props.setMessage('Please enter correct value!')
-        } else props.setMessage('Enter the value and press Set')
+        if (startValue >= (parseInt(newMaxValue))) {
+            return setMessage('Please enter correct value!')
+        } else setMessage('Enter the value and press Set')
     }
 
-    let settingsError = props.startValue >= props.maxValue
-        || props.startValue < 0
-        || props.maxValue <= 0
+    let settingsError = startValue >= maxValue
+        || startValue < 0
+        || maxValue <= 0
 
     const setButtonClass = settingsError ? s.button_disabled : s.button_enabled
     const inputValueError = settingsError ? s.input_alert : s.input_style
@@ -59,20 +58,18 @@ export function Settings(props: SettingsType) {
             <div className={s.input_block_wrapper}>
                 <div className={s.input_block}>
                     <label className={s.input_title}>max value :</label>
-                    <input value={props.maxValue} className={inputValueError} onChange={onChangeMaxValue}
+                    <input value={maxValue} className={inputValueError} onChange={onChangeMaxValue}
                            type="number"/>
                 </div>
                 <div className={s.input_block}>
                     <label className={s.input_title}>min value :</label>
-                    <input value={props.startValue} onChange={onChangeMinValue} className={inputValueError}
+                    <input value={startValue} onChange={onChangeMinValue} className={inputValueError}
                            type="number"/>
                 </div>
             </div>
             <div className={s.button_block}>
-                <Button className={setButtonClass} buttonName={'set'} callBack={setButtonHandler}
+                <Button className={setButtonClass} buttonName={'set'} onClick={setButtonHandler}
                         disabled={settingsError}/>
             </div>
         </div>)
-
-
 }
